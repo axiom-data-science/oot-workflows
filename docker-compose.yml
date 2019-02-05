@@ -1,0 +1,80 @@
+version: '3.2'
+
+networks:
+  default:
+    external:
+      name: oot
+
+services:
+
+  kafka-int:
+    image: landoop/fast-data-dev:1.0.1
+    environment:
+      ZK_PORT: ${KAFKA_ZK_PORT}
+      BROKER_PORT: ${KAFKA_BROKER_PORT}
+      REGISTRY_PORT: ${KAFKA_REGISTRY_PORT}
+      REST_PORT: ${KAFKA_REST_PORT}
+      CONNECT_PORT: ${KAFKA_CONNECT_PORT}
+      WEB_PORT: ${KAFKA_WEB_PORT}
+      DISABLE: elastic,hbase,elasticsearch
+      DISABLE_JMX: 1
+      RUNTESTS: 0
+      FORWARDLOGS: 0
+      SAMPLEDATA: 0
+      ENABLE_SSL: 0
+      RUNNING_SAMPLEDATA: 0
+      SUPERVISORWEB: 0
+      BROWSECONFIGS: 0
+      CONNECT_HEAP: 256M
+
+  # kafka-ext:
+  #   image: landoop/fast-data-dev:1.0.1
+  #   network_mode: host
+  #   environment:
+  #     ZK_PORT: ${KAFKA_ZK_PORT}
+  #     BROKER_PORT: ${KAFKA_BROKER_PORT}
+  #     REGISTRY_PORT: ${KAFKA_REGISTRY_PORT}
+  #     REST_PORT: ${KAFKA_REST_PORT}
+  #     CONNECT_PORT: ${KAFKA_CONNECT_PORT}
+  #     WEB_PORT: ${KAFKA_WEB_PORT}
+  #     DISABLE: elastic,hbase,elasticsearch
+  #     DISABLE_JMX: 1
+  #     RUNTESTS: 0
+  #     FORWARDLOGS: 0
+  #     SAMPLEDATA: 0
+  #     ENABLE_SSL: 0
+  #     RUNNING_SAMPLEDATA: 0
+  #     SUPERVISORWEB: 0
+  #     BROWSECONFIGS: 0
+  #     CONNECT_HEAP: 256M
+  #     ADV_HOST: 127.0.0.1
+
+  jupyterlab:
+    image: oot-pyenv
+    ports:
+      - "8888:8888"
+    volumes:
+      - "./data:/home/jovyan/work/data"
+      - "./notebooks:/home/jovyan/work/notebooks"
+    command: ["start.sh", "jupyter", "lab", "--LabApp.token=''"]
+
+  particle-release-listener:
+    image: oot-pyenv
+    volumes:
+      - "./scripts:/home/jovyan/work/scripts:ro"
+      - "./data:/home/jovyan/work/data"
+    command: ["python", "/home/jovyan/work/scripts/listen_for_tracks.py"]
+
+  # The pydap netCDF handler isn't working. SWEET.
+  # pydap:
+  #   image: oot-pyenv
+  #   ports:
+  #     - "9999:9999"
+  #   volumes:
+  #     - "./data:/home/jovyan/work/data:ro"
+  #   command: [
+  #     "pydap",
+  #     "-p", "9999",
+  #     "-b", "0.0.0.0",
+  #     "-d", "/home/jovyan/work/data"
+  #   ]
