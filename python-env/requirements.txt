@@ -13,12 +13,14 @@ ffmpeg
 fiona
 gdal
 geoalchemy2
+geoviews
 geojson
 geopandas
 gunicorn
 h5netcdf
 h5py
 hdf5
+holoviews
 ipywidgets
 isodate
 jupyter
