@@ -22,6 +22,7 @@ RUN conda install --yes --file /tmp/requirements.txt && \
     # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager
     jupyter labextension install @jupyter-widgets/jupyterlab-manager@^0.38.1 && \
     jupyter labextension install jupyterlab_bokeh@0.6.3 && \
+    jupyter labextension install @pyviz/jupyterlab_pyviz  && \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
