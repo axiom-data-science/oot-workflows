@@ -65,6 +65,13 @@ services:
       - "./data:/home/jovyan/work/data"
     command: ["python", "/home/jovyan/work/scripts/listen_for_tracks.py"]
 
+  particle-release-web:
+    image: oot-sample-web-run
+    volumes:
+    - "./web/sample-submit-run/app.py:/app/app.py:ro"
+    ports:
+      - "8889:8889"
+
   # The pydap netCDF handler isn't working. SWEET.
   # pydap:
   #   image: oot-pyenv
