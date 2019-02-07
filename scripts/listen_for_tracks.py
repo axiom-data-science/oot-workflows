@@ -60,7 +60,7 @@ def parcels_particle_run(k, v):
     expanded_rows = []
     df = pd.DataFrame.from_records(v['records'])
     for ix, row in df.iterrows():
-        expanded_rows.append(pd.concat([row] * row.nparticles, ignore_index=True, axis=1).T)
+        expanded_rows.append(pd.concat([row] * int(row.nparticles), ignore_index=True, axis=1).T)
     expanded_df = pd.concat(expanded_rows, axis=0).reset_index()
     expanded_df = expanded_df.drop(columns=['index', 'nparticles'])
     L.info(f"Expanced and Loaded {len(expanded_df)} Particles!")
