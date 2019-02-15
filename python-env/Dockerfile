@@ -14,9 +14,10 @@ RUN conda config \
 COPY requirements.txt /tmp/
 RUN conda install --yes --file /tmp/requirements.txt && \
     conda remove --quiet --yes --force qt pyqt && \
-    conda clean -tipsy && \
-    # Activate ipywidgets extension in the environment that runs the notebook server
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    conda clean -tipsy
+
+# Activate ipywidgets extension in the environment that runs the notebook server
+RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
     # Also activate ipywidgets extension for JupyterLab
     # Check this URL for most recent compatibilities
     # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager
