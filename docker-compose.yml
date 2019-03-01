@@ -56,6 +56,7 @@ services:
     volumes:
       - "./data:/home/jovyan/work/data"
       - "./notebooks:/home/jovyan/work/notebooks"
+      - "./plots:/home/jovyan/work/plots"
     command: ["start.sh", "jupyter", "lab", "--LabApp.token=''"]
 
   particle-release-listener:
@@ -64,6 +65,14 @@ services:
       - "./scripts:/home/jovyan/work/scripts:ro"
       - "./data:/home/jovyan/work/data"
     command: ["python", "/home/jovyan/work/scripts/listen_for_tracks.py"]
+
+  particle-release-plotter:
+    image: oot-pyenv
+    volumes:
+      - "./scripts:/home/jovyan/work/scripts:ro"
+      - "./data:/home/jovyan/work/data"
+      - "./plots:/home/jovyan/work/plots"
+    command: ["python", "/home/jovyan/work/scripts/listen_for_completed_simulations.py"]
 
   particle-release-web:
     image: oot-sample-web-run

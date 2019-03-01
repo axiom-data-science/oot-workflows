@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import cftime
 import pandas as pd
 import xarray as xr
-from easyavro import EasyAvroConsumer
+from easyavro import EasyAvroConsumer, EasyAvroProducer
 from parcels import (
     AdvectionRK4,
     FieldSet,
@@ -63,7 +63,7 @@ def parcels_particle_run(k, v):
         expanded_rows.append(pd.concat([row] * int(row.nparticles), ignore_index=True, axis=1).T)
     expanded_df = pd.concat(expanded_rows, axis=0).reset_index()
     expanded_df = expanded_df.drop(columns=['index', 'nparticles'])
-    L.info(f"Expanced and Loaded {len(expanded_df)} Particles!")
+    L.info(f"Expanded and Loaded {len(expanded_df)} Particles!")
 
     L.info("Converting particle release time to the model base unit...")
     expanded_df.time = cftime.date2num(
@@ -96,6 +96,23 @@ def parcels_particle_run(k, v):
         output_file=output
     )
     L.info(f'Complete! Saved output: {output_file}')
+
+    kafka_base = 'kafka-int'
+    p = EasyAvroProducer(
+        schema_registry_url=f'http://{kafka_base}:7002',
+        kafka_brokers=[f'{kafka_base}:7001'],
+        kafka_topic='mil-darpa-oot-particle-completed',
+        key_schema='nokey'
+    )
+    to_send = [(
+        None,
+        {
+            'id': v['id'],
+            'filepath': str(output_file)
+        }
+    )]
+    p.produce(to_send)
+    L.info("Sent simulation completed message")
 
 
 if __name__ == '__main__':
