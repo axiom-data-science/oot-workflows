@@ -5,7 +5,7 @@ This repo contains an encasulated set of notebooks and scripts to prepare, run, 
 The general workflow is as follows:
 
 1. Prepare the work environment including Kafka, Jupyter Lab, and the required applications in the Getting Stared section.
-2. Register the required, example schema in Jupyter Notebook `002_Create_Schema.ipynb`
+2. Register the required example schema in Jupyter Notebook `002_Create_Schema.ipynb`
 3. Start a drifter simulations in the Jupter Notebook `003_Start_Kafka_Run.ipynb`
 4. View a simple visualization of the drifter results through Jupyter Lab in the directory `/work/plots/`
 
