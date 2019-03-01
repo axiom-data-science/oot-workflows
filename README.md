@@ -102,8 +102,6 @@ python scripts/listen_for_tracks.py
 
 
 
-
-
 ## Jupyter Notebook descriptions
 1. 001\_Manual\_Run.ipynb - Demo of drifters contained completely within a Jupyter Notebook.
 2. 002\_Create\_Schema.ipynb - Create AVRO schema for drifter simulation inputs.
@@ -111,3 +109,8 @@ python scripts/listen_for_tracks.py
 4. 004\_View\_Run.ipynb - Manually examples of visualization from the drifter simulation. 
 4. Alguhas.ipynb - Example notebook from Parcels library
 5. Parcles.ipynb - Example notebook from Parcels library
+
+## Dockerfiles
+- `python-env/Dockerfile` - Dockerfile used for JupyterLab, particle listener, and particle plotter
+- `web/sample-submit-run/Dockerfile` - Dockerfile for simple web app to create drifter input.  Not highlighted in the demo.
+- `docker-compose.yml` - Used to start applications used in demo.
